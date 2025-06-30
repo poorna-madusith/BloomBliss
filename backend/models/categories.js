@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const categoriesSchema = new mongoose.Schema({
-    id:{
+    _id:{
         type:Number,
         required: true,
         unique: true

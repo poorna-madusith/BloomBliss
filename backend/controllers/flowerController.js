@@ -23,5 +23,28 @@ exports.getFlowers = async (req,res) => {
 
 
 //add a flower
-exports.addFlower = async (req,res)
+exports.addFlower = async (req,res) => {
+    const {name,price,description,image,quantity,category} = req.body;
+
+    try{
+        if(!name || !price || !description || !image || !quantity || !category){
+            return res.status(400).json({message: "Please provide all the required fields!"});
+        }
+
+        const newFlower = new flowers ({
+            name,
+            price,
+            description,
+            image,
+            quantity,
+            category
+        });
+
+        await newFlower.save();
+        return res.status(201).json({message:"Flower added succesfully! "});
+    }catch(err){
+        console.error("Error while adding flower: ", err);
+        return res.status(500).json({message:"Internal Server Error"});
+    }
+}
 
