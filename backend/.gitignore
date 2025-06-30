@@ -35,3 +35,7 @@ debug.log
 # Operating System Files
 Thumbs.db
 .DS_Store
+
+# Uploaded files
+uploads/*
+!uploads/.gitkeep
