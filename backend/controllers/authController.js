@@ -88,3 +88,23 @@ exports.updateProfile = async(req,res) => {
         return res.status(500).json({message: "Internal Server Error"});
     }
 }
+
+//getprofile
+exports.getProfile = async (req,res) => {
+    try{
+        const user = await Users.findOne({email:req.user.email});
+        if(!user){
+            return res.status(404).json({message: "User not found!"});
+        }
+        return res.status(200).json({
+            name: user.name,
+            email: user.email,
+            mobilenumber: user.mobilenumber,
+            address: user.address
+        });
+        
+    }catch(err){
+        console.error("Error while fetching profile: ", err);
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
