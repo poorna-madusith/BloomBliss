@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion' // Add this import
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -114,25 +115,41 @@ function NavbarContent() {
   );
 }
 
+function AppContent() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/shop" element={<FlowersPage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <div className="min-h-screen font-[Montserrat]">
+    <Router>
+      <CartProvider>
+        <div className="App">
           <NavbarContent />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<Signup/>}/>
-            <Route path="/profile" element={<Profile />}/>
-            <Route path="/home" element={<Home />}/>
-            <Route path="/shop" element={<FlowersPage />}/>
-            <Route path="/cart" element={<Cart />}/>
-            <Route path="/checkout" element={<Checkout />}/>
-            <Route path="/order-success" element={<OrderSuccess />}/>
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
+          <AppContent />
           <ToastContainer
             position="top-right"
             autoClose={2000}
@@ -146,9 +163,9 @@ function App() {
             theme="light"
           />
         </div>
-      </Router>
-    </CartProvider>
-  )
+      </CartProvider>
+    </Router>
+  );
 }
 
 export default App;
