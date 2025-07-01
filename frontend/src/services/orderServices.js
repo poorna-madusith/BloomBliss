@@ -18,10 +18,31 @@ export const createOrder = async (orderData) => {
 
 export const getUserOrders = async () => {
     try {
-        const response = await API.get("/api/orders/user-orders");
-        return response.data;
+        console.log('Sending request to fetch user orders...');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        const response = await API.get("/api/orders/user-orders", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        console.log('User orders API response:', response);
+        
+        if (!response.data) {
+            throw new Error('No data received from the server');
+        }
+        
+        return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
-        console.error("Error fetching user orders:", error);
+        console.error("Error fetching user orders:", {
+            message: error.message,
+            response: error.response?.data,
+            status: error.response?.status
+        });
         throw error;
     }
 };

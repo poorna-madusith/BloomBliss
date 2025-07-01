@@ -3,6 +3,12 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB  = require('./config/db');
 
+// Import models
+require('./models/users');
+require('./models/flowers');
+require('./models/categories');
+require('./models/orders');
+
 dotenv.config();
 connectDB();
 
