@@ -22,7 +22,7 @@
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
-  transition: flex 0.3s ease-out;
+  transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   flex-basis: 0;
   display: flex;
   justify-content: center;
@@ -61,12 +61,16 @@
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: .1em;
+  transform-origin: center center;
   transform: translate(-50%, -50%) rotate(-90deg);
   white-space: nowrap;
   left: 50%;
   top: 50%;
-  transition: all 0.3s ease-out;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              font-size 0.5s ease,
+              position 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  will-change: transform, position, font-size;
 }
 
 .card p span p {
@@ -77,15 +81,16 @@
   height: auto;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.3s ease-out;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: 80%;
+  pointer-events: none;
 }
 
 .card p:hover span h3 {
   position: relative;
-  transform: rotate(0);
-  left: auto;
-  top: auto;
+  transform: rotate(0) translateY(0);
+  left: 0;
+  top: 0;
   margin-bottom: 1rem;
   font-size: 1.2rem;
   white-space: normal;
@@ -97,4 +102,58 @@
 .card p:hover span p {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+}
+
+.card_y {
+  box-sizing: border-box;
+  width: 190px;
+  height: 254px;
+  background: rgba(217, 217, 217, 0.58);
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-weight: bolder;
+  color: black;
+}
+
+
+.card_y:active {
+  transform: scale(0.95) rotateZ(1.7deg);
+}
+.card_x {
+  box-sizing: border-box;
+  width: 190px;
+  height: 254px;
+  background: rgba(217, 217, 217, 0.58);
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  font-weight: bolder;
+  color: black;
+}
+
+.card_x:hover {
+  border: 1px solid black;
+  transform: scale(1.05);
+}
+
+.card_x:active {
+  transform: scale(0.95) rotateZ(1.7deg);
 }
