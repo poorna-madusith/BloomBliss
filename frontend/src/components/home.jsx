@@ -311,7 +311,12 @@ function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+            <div
+              onClick={() =>
+                navigate("/shop", { state: { category: "Bouquets" } })
+              }
+              className="cursor-pointer h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group"
+            >
               <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
                 <h3 className="text-2xl font-bold mb-2">Bouquets</h3>
@@ -325,7 +330,12 @@ function Home() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+            <div
+              onClick={() =>
+                navigate("/shop", { state: { category: "Fresh Flowers" } })
+              }
+              className="cursor-pointer h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group"
+            >
               <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
                 <h3 className="text-2xl font-bold mb-2">Fresh Flowers</h3>
@@ -339,7 +349,12 @@ function Home() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+            <div
+              onClick={() =>
+                navigate("/shop", { state: { category: "Gift Hampers" } })
+              }
+              className="cursor-pointer h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group"
+            >
               <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
                 <h3 className="text-2xl font-bold mb-2">Gift Hampers</h3>
@@ -353,7 +368,10 @@ function Home() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+            <div
+              onClick={() => navigate("/shop", { state: { category: "Plants" } })}
+              className="cursor-pointer h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group"
+            >
               <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
                 <h3 className="text-2xl font-bold mb-2">Plants</h3>
@@ -382,9 +400,10 @@ function Home() {
             anniversaries to everyday smiles. Fresh flowers, handcrafted with
             love, delivered to your door.
           </p>
-          <button 
-            onClick={() => navigate('/login')}
-            className="cursor-pointer group relative bg-[#06D6A0] hover:bg-[#05bf8f] text-white font-semibold text-sm px-6 py-3 rounded-full transition-all duration-1000 delay-400 ease-out opacity-0 translate-y-10 shadow hover:shadow-lg w-40 h-12">
+          <button
+            onClick={() => navigate("/login")}
+            className="cursor-pointer group relative bg-[#06D6A0] hover:bg-[#05bf8f] text-white font-semibold text-sm px-6 py-3 rounded-full transition-all duration-1000 delay-400 ease-out opacity-0 translate-y-10 shadow hover:shadow-lg w-40 h-12"
+          >
             <div className="relative flex items-center justify-center gap-2">
               <span className="relative inline-block overflow-hidden">
                 <span className="block transition-transform duration-300 group-hover:-translate-y-full">

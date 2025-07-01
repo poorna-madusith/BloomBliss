@@ -4,8 +4,10 @@ import background2 from "../assets/background2.png";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useLocation } from "react-router-dom";
 
 const FlowersPage = () => {
+  const location = useLocation();
   const [flowers, setFlowers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -16,6 +18,7 @@ const FlowersPage = () => {
   const fetchFlowers = async () => {
     try {
       const data = await getAllFlowers();
+      console.log('Fetched flowers:', data);
       setFlowers(data);
       // Initialize quantities state for each flower
       const initialQuantities = {};
@@ -31,6 +34,7 @@ const FlowersPage = () => {
   const fetchCategories = async () => {
     try {
       const data = await getCategories();
+      console.log('Fetched categories:', data);
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -42,6 +46,14 @@ const FlowersPage = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // Set the selected category from navigation state if it exists
+    if (location.state?.category) {
+      console.log('Setting category from navigation:', location.state.category);
+      setSelectedCategory(location.state.category);
+    }
+  }, [location.state]);
+
   const handleQuantityChange = (flowerId, value) => {
     setQuantities((prev) => ({
       ...prev,
@@ -51,7 +63,7 @@ const FlowersPage = () => {
 
   const filteredFlowers = selectedCategory === 'all'
     ? flowers
-    : flowers.filter(flower => flower.category._id === parseInt(selectedCategory));
+    : flowers.filter(flower => flower.category.name === selectedCategory);
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredFlowers.length / itemsPerPage);
@@ -68,6 +80,14 @@ const FlowersPage = () => {
     // Scroll to top of the flowers section smoothly
     document.getElementById('flowers-section').scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    console.log('Current selected category:', selectedCategory);
+    const filtered = selectedCategory === 'all'
+      ? flowers
+      : flowers.filter(flower => flower.category.name === selectedCategory);
+    console.log('Filtered flowers:', filtered);
+  }, [selectedCategory, flowers]);
 
   return (
     <div
@@ -101,9 +121,9 @@ const FlowersPage = () => {
             {categories.map((category) => (
               <button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.id.toString())}
+                onClick={() => setSelectedCategory(category.name)}
                 className={`px-6 py-2 rounded-full transition-all duration-300 ${
-                  selectedCategory === category.id.toString()
+                  selectedCategory === category.name
                     ? 'bg-[#06D6A0] text-white shadow-md scale-105'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}

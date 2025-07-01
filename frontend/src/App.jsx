@@ -33,7 +33,7 @@ function App() {
                 <div className="w-2/4 flex justify-center">
                   <div className="hidden md:flex items-center justify-center space-x-12">
                     <Link to="/home" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Home</Link>
-                    <Link to="/FlowersPage" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Shop</Link>
+                    <Link to="/shop" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Shop</Link>
                     <Link to="/" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">About Us</Link>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ function App() {
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/home" element={<Home />}/>
-            <Route path="/FlowersPage" element={<FlowersPage />}/>
+            <Route path="/shop" element={<FlowersPage />}/>
           </Routes>
           </div>
         </Router>
