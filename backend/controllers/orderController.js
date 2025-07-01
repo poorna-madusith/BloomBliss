@@ -3,6 +3,7 @@ const Flower = require('../models/flowers');
 
 exports.createOrder = async (req, res) => {
     try {
+        console.log('Request body:', JSON.stringify(req.body, null, 2));
         console.log('Request user object:', req.user);
         
         if (!req.user || !req.user.id) {
@@ -15,6 +16,27 @@ exports.createOrder = async (req, res) => {
 
         const { items, shippingAddress, contactInfo, subtotal, deliveryCharge, total, paymentInfo } = req.body;
         
+        // Validate required fields
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({
+                message: "Invalid order: Items array is required and must not be empty",
+                receivedItems: items
+            });
+        }
+
+        if (!shippingAddress) {
+            return res.status(400).json({
+                message: "Invalid order: Shipping address is required"
+            });
+        }
+
+        if (!contactInfo || !contactInfo.name || !contactInfo.email || !contactInfo.mobile) {
+            return res.status(400).json({
+                message: "Invalid order: Contact information is incomplete",
+                receivedContactInfo: contactInfo
+            });
+        }
+
         console.log('Creating order for user:', req.user.id);
         
         // Calculate total amount and verify stock
@@ -28,11 +50,11 @@ exports.createOrder = async (req, res) => {
             }
 
             if (flower.quantity < item.quantity) {
-                return res.status(400).json({ 
+                return res.status(400).json({
                     message: "Invalid order: Insufficient stock",
                     flower: flower.name,
-                    requested: item.quantity,
-                    available: flower.quantity
+                    requestedQuantity: item.quantity,
+                    availableQuantity: flower.quantity
                 });
             }
             

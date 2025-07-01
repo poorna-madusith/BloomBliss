@@ -39,7 +39,7 @@ function Cart() {
                                         <div>
                                             <h3 className="text-lg font-semibold">{item.name}</h3>
                                             <p className="text-gray-600">Quantity: {item.quantity}</p>
-                                            <p className="text-[#06D6A0] font-bold">₹{item.price * item.quantity}</p>
+                                            <p className="text-[#06D6A0] font-bold">₹{(item.price * item.quantity).toFixed(2)}</p>
                                         </div>
                                     </div>
                                     <button
@@ -52,7 +52,7 @@ function Cart() {
                             </div>
                         ))}
                         <div className="bg-white/95 backdrop-blur-sm mt-8 p-6 rounded-lg shadow-md flex justify-between items-center">
-                            <div className="text-xl font-bold">Total: ₹{total}</div>
+                            <div className="text-xl font-bold">Total: ₹{total.toFixed(2)}</div>
                             <button 
                                 onClick={() => navigate('/checkout')}
                                 className="bg-[#06D6A0] text-white px-6 py-3 rounded-lg hover:bg-[#05bf8f] transition duration-300"

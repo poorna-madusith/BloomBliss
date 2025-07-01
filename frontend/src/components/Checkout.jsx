@@ -232,21 +232,21 @@ function Checkout() {
                                         <p className="font-medium">{item.name}</p>
                                         <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                                     </div>
-                                    <p className="font-medium">₹{item.price * item.quantity}</p>
+                                    <p className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</p>
                                 </div>
                             ))}
                             <div className="border-t pt-4 mt-4">
                                 <div className="flex justify-between">
                                     <p>Subtotal</p>
-                                    <p>₹{subtotal}</p>
+                                    <p>₹{subtotal.toFixed(2)}</p>
                                 </div>
                                 <div className="flex justify-between text-gray-600">
                                     <p>Delivery Charge</p>
-                                    <p>₹{deliveryCharge}</p>
+                                    <p>₹{deliveryCharge.toFixed(2)}</p>
                                 </div>
                                 <div className="flex justify-between font-bold mt-2">
                                     <p>Total</p>
-                                    <p>₹{total}</p>
+                                    <p>₹{total.toFixed(2)}</p>
                                 </div>
                             </div>
                         </div>

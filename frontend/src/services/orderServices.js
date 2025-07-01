@@ -2,7 +2,14 @@ import API from "../api";
 
 export const createOrder = async (orderData) => {
     try {
-        console.log('Making API request to create order');
+        console.log('Making API request to create order with data:', JSON.stringify(orderData, null, 2));
+        // Verify token is present
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+        console.log('Authentication token is present');
+        
         const response = await API.post("/api/orders/create", orderData);
         console.log('Order creation response:', response.data);
         return response.data;
@@ -10,7 +17,8 @@ export const createOrder = async (orderData) => {
         console.error("Error creating order:", {
             message: error.message,
             response: error.response?.data,
-            status: error.response?.status
+            status: error.response?.status,
+            details: error.response?.data?.message || 'No detailed error message available'
         });
         throw error;
     }
