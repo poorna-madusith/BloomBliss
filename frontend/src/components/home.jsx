@@ -3,6 +3,10 @@ import homeImage from "../assets/home.png";
 import img1 from "../assets/img1.jpg";
 import img2 from "../assets/img2.jpg";
 import img3 from "../assets/img3.jpg";
+import boqueImg from "../assets/categories/Boque.jpg";
+import freshFlowersImg from "../assets/categories/freshflowers.jpg";
+import giftHampersImg from "../assets/categories/gifthampers.jpg";
+import plantsImg from "../assets/categories/palnts.jpg";
 import "../css/home.css"
 
 function Home() {
@@ -137,17 +141,53 @@ function Home() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="card_x">
-              Click me
+            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+              <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+                <h3 className="text-2xl font-bold mb-2">Bouquets</h3>
+                <p className="text-sm text-center px-4">Handcrafted arrangements for every occasion</p>
+              </div>
+              <img 
+                src={boqueImg} 
+                alt="Bouquet" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="card_x">
-              Click me
+            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+              <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+                <h3 className="text-2xl font-bold mb-2">Fresh Flowers</h3>
+                <p className="text-sm text-center px-4">Daily fresh cuts for natural beauty</p>
+              </div>
+              <img 
+                src={freshFlowersImg} 
+                alt="Fresh Flowers" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="card_x">
-              Click me
+            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+              <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+                <h3 className="text-2xl font-bold mb-2">Gift Hampers</h3>
+                <p className="text-sm text-center px-4">Curated gifts with floral elegance</p>
+              </div>
+              <img 
+                src={giftHampersImg} 
+                alt="Gift Hampers" 
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="card_x">
-              Click me
+            <div className="h-96 overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 relative group">
+              <div className="absolute inset-0 bg-black opacity-60 group-hover:opacity-40 transition-opacity"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+                <h3 className="text-2xl font-bold mb-2">Plants</h3>
+                <p className="text-sm text-center px-4">Long-lasting green companions</p>
+              </div>
+              <img 
+                src={plantsImg} 
+                alt="Plants" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
