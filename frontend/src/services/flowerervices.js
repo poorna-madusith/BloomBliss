@@ -10,3 +10,13 @@ export const getAllFlowers = async () => {
     }
 }
 
+export const getCategories = async () => {
+    try {
+        const response = await API.get("/flowercategory/getcategory");
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+        throw error;
+    }
+}
+
