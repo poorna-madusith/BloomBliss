@@ -3,33 +3,75 @@ const Flower = require('../models/flowers');
 
 exports.createOrder = async (req, res) => {
     try {
-        const { items, shippingAddress } = req.body;
+        console.log('Request user object:', req.user);
+        
+        if (!req.user || !req.user.id) {
+            console.error('Missing user ID in request:', req.user);
+            return res.status(401).json({ 
+                message: "User not authenticated properly",
+                debug: { user: req.user }
+            });
+        }
+
+        const { items, shippingAddress, contactInfo, subtotal, deliveryCharge, total, paymentInfo } = req.body;
+        
+        console.log('Creating order for user:', req.user.id);
         
         // Calculate total amount and verify stock
-        let totalAmount = 0;
         for (const item of items) {
             const flower = await Flower.findById(item.flowerId);
-            if (!flower || flower.quantity < item.quantity) {
-                return res.status(400).json({ message: "Invalid order: Insufficient stock" });
+            if (!flower) {
+                return res.status(400).json({ 
+                    message: "Invalid order: Flower not found",
+                    flowerId: item.flowerId 
+                });
             }
-            totalAmount += flower.price * item.quantity;
+
+            if (flower.quantity < item.quantity) {
+                return res.status(400).json({ 
+                    message: "Invalid order: Insufficient stock",
+                    flower: flower.name,
+                    requested: item.quantity,
+                    available: flower.quantity
+                });
+            }
             
             // Update flower quantity
             flower.quantity -= item.quantity;
             await flower.save();
         }
 
-        const order = new Order({
+        const orderData = {
             userId: req.user.id,
             items,
-            totalAmount,
-            shippingAddress
-        });
+            subtotal,
+            deliveryCharge,
+            total,
+            shippingAddress,
+            contactInfo,
+            paymentInfo,
+            orderDate: new Date(),
+            status: 'Pending'
+        };
 
-        await order.save();
-        res.status(201).json({ message: "Order created successfully", order });
+        console.log('Creating order with data:', orderData);
+
+        const order = new Order(orderData);
+        const savedOrder = await order.save();
+        
+        console.log('Order created successfully:', savedOrder);
+
+        res.status(201).json({ 
+            message: "Order created successfully", 
+            order: savedOrder 
+        });
     } catch (error) {
-        res.status(500).json({ message: "Error creating order", error: error.message });
+        console.error('Order creation error:', error);
+        res.status(500).json({ 
+            message: "Error creating order", 
+            error: error.message,
+            details: error.errors // Include mongoose validation errors if any
+        });
     }
 };
 

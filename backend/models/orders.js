@@ -20,9 +20,22 @@ const orderSchema = new mongoose.Schema({
         price: {
             type: Number,
             required: true
+        },
+        name: {
+            type: String,
+            required: true
         }
     }],
-    totalAmount: {
+    subtotal: {
+        type: Number,
+        required: true
+    },
+    deliveryCharge: {
+        type: Number,
+        required: true,
+        default: 10
+    },
+    total: {
         type: Number,
         required: true
     },
@@ -30,10 +43,28 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    contactInfo: {
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        mobile: {
+            type: String,
+            required: true
+        }
+    },
+    paymentInfo: {
+        cardNumber: String, // Last 4 digits only
+        expiryDate: String
+    },
     status: {
         type: String,
-        enum: ['pending', 'processing', 'shipped', 'delivered'],
-        default: 'pending'
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered'],
+        default: 'Pending'
     },
     orderDate: {
         type: Date,

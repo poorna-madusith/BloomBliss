@@ -9,7 +9,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Home from './components/home'
 import FlowersPage from './components/flowersPage'
 import Cart from './components/Cart'
-import { CartProvider } from './context/CartProvider'
+import Checkout from './components/Checkout'
+import OrderSuccess from './components/OrderSuccess'
+import { CartProvider } from './context/CartProvider.jsx'
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -86,12 +88,16 @@ function App() {
             </div>
           </nav>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/home" element={<Home />}/>
             <Route path="/shop" element={<FlowersPage />}/>
             <Route path="/cart" element={<Cart />}/>
+            <Route path="/checkout" element={<Checkout />}/>
+            <Route path="/order-success" element={<OrderSuccess />}/>
+            <Route path="*" element={<Home />} />
           </Routes>
           </div>
         </Router>

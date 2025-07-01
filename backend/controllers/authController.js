@@ -38,7 +38,6 @@ exports.login = async (req,res) => {
     const {email, password} = req.body;
 
     try{
-
         const user = await Users.findOne({email});
         if(!user){
             return  res.status(404).json({message: "No user found with this email! "});
@@ -49,19 +48,30 @@ exports.login = async (req,res) => {
             return res.status(400).json({message: "Invalid Password! "});
         }
 
-        const token = jwt.sign({email: user.email}, process.env.JWT_KEY,{expiresIn: '1h'});
+        console.log('User found:', { id: user._id, email: user.email });
+
+        const tokenPayload = {
+            id: user._id.toString(), // Convert ObjectId to string
+            email: user.email
+        };
+
+        console.log('Token payload:', tokenPayload);
+
+        const token = jwt.sign(tokenPayload, process.env.JWT_KEY, { expiresIn: '1h' });
+        
         return res.status(200).json({
-            messgae: "Login Successfull!",
+            message: "Login Successful!",
             token,
             user: {
+                id: user._id.toString(), // Convert ObjectId to string
                 name: user.name,
                 email: user.email,
                 mobilenumber: user.mobilenumber,
                 address: user.address
             }
-        })
-    }catch(err){
-        console.log("Error while logging in: ", err);
+        });
+    } catch(err){
+        console.error("Error while logging in: ", err);
         return res.status(500).json({message: "Internal Server Error"});
     }
 }
