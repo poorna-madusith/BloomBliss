@@ -4,6 +4,7 @@ import { login } from "../services/authservices";
 import { toast } from 'react-toastify';
 import '../app.css';
 import '../index.css';
+import background2 from '../assets/background2.png';
 
 function Login(){
     const [formdata, SetFormData] = useState({
@@ -73,7 +74,7 @@ function Login(){
             if (state?.from) {
                 navigate(state.from);
             } else {
-                navigate("/home");
+                navigate("/profile");
             }
         } catch (error) {
             console.error("Login error:", error);
@@ -96,8 +97,14 @@ function Login(){
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center font-[Montserrat]" style={{ backgroundColor: '#F8FFE5' }}>
-            <div className="w-full max-w-md p-8 rounded-lg shadow-lg bg-white">
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" 
+             style={{
+                backgroundImage: `url(${background2})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+             }}>
+            <div className="max-w-md w-full space-y-8 bg-white/90 p-8 rounded-lg shadow-xl backdrop-blur-sm">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold" style={{ color: '#06D6A0' }}>Welcome Back</h2>
                     <p className="text-gray-600 mt-2">Please sign in to continue</p>

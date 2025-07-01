@@ -3,6 +3,7 @@ import {signup} from "../services/authservices";
 import {useState} from"react";
 import {useNavigate}from "react-router-dom";
 import { toast } from 'react-toastify';
+import background2 from '../assets/background2.png';
 
 function Signup(){
     const[formdata,SetFormData] = useState({
@@ -148,22 +149,28 @@ function Signup(){
         }
     }
 
-    return(
-        <div className="flex min-h-screen items-center justify-center font-[Montserrat]" style={{ backgroundColor: '#F8FFE5' }}>
-            <div className="w-full max-w-xl p-8 rounded-lg shadow-lg bg-white">
-                <div className="text-center mb-6">
-                    <h2 className="text-3xl font-bold" style={{ color: '#06D6A0' }}>Create Account</h2>
-                    <p className="text-gray-600 mt-2 text-base">Please fill in your details</p>
+    return (
+        <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+             style={{
+                backgroundImage: `url(${background2})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+             }}>
+            <div className="max-w-xl w-full space-y-8 bg-white/90 p-10 rounded-lg shadow-xl backdrop-blur-sm mt-8">
+                <div className="text-center mb-8">
+                    <h2 className="text-4xl font-bold" style={{ color: '#06D6A0' }}>Create Account</h2>
+                    <p className="text-gray-600 mt-3 text-lg">Please fill in your details</p>
                 </div>
                 {errors.general && (
                     <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
                         {errors.general}
                     </div>
                 )}
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-2 gap-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-2 gap-8">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="name" className="block text-base font-medium text-gray-700 mb-2">
                                 Full Name
                             </label>
                             <input 
@@ -173,7 +180,7 @@ function Signup(){
                                 name="name" 
                                 placeholder="Enter your full name" 
                                 value={formdata.name} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.name ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -183,7 +190,7 @@ function Signup(){
                             )}
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="email" className="block text-base font-medium text-gray-700 mb-2">
                                 Email Address
                             </label>
                             <input 
@@ -193,7 +200,7 @@ function Signup(){
                                 name="email" 
                                 placeholder="Enter your email" 
                                 value={formdata.email} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.email ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -206,7 +213,7 @@ function Signup(){
 
                     <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="mobilenumber" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="mobilenumber" className="block text-base font-medium text-gray-700 mb-2">
                                 Mobile Number
                             </label>
                             <input 
@@ -216,7 +223,7 @@ function Signup(){
                                 name="mobilenumber" 
                                 placeholder="Enter your mobile number" 
                                 value={formdata.mobilenumber} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.mobilenumber ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -226,7 +233,7 @@ function Signup(){
                             )}
                         </div>
                         <div>
-                            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="address" className="block text-base font-medium text-gray-700 mb-2">
                                 Address
                             </label>
                             <input 
@@ -236,7 +243,7 @@ function Signup(){
                                 name="address" 
                                 placeholder="Enter your address" 
                                 value={formdata.address} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.address ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -249,7 +256,7 @@ function Signup(){
 
                     <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="password" className="block text-base font-medium text-gray-700 mb-2">
                                 Password
                             </label>
                             <input 
@@ -259,7 +266,7 @@ function Signup(){
                                 name="password" 
                                 placeholder="Enter your password" 
                                 value={formdata.password} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.password ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -269,7 +276,7 @@ function Signup(){
                             )}
                         </div>
                         <div>
-                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="confirmPassword" className="block text-base font-medium text-gray-700 mb-2">
                                 Confirm Password
                             </label>
                             <input 
@@ -279,7 +286,7 @@ function Signup(){
                                 name="confirmPassword" 
                                 placeholder="Confirm your password" 
                                 value={formdata.confirmPassword} 
-                                className={`w-full px-4 py-2.5 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-sm ${
+                                className={`w-full px-5 py-3 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition text-base ${
                                     errors.confirmPassword ? 'border-red-500' : ''
                                 }`}
                                 style={{ '--tw-ring-color': '#06D6A0' }}
@@ -292,7 +299,7 @@ function Signup(){
 
                     <button
                         type="submit"
-                        className="w-full text-white py-2.5 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                        className="w-full text-white py-3.5 px-6 rounded-md text-lg font-medium transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 mt-4"
                         style={{ 
                             backgroundColor: '#06D6A0',
                             '--tw-ring-color': '#06D6A0',
@@ -303,8 +310,8 @@ function Signup(){
                     >
                         Create Account
                     </button>
-                    <div className="text-center mt-4">
-                        <a href="/login" className="text-sm font-medium hover:opacity-80 transition-opacity" style={{ color: '#06D6A0' }}>
+                    <div className="text-center mt-6">
+                        <a href="/login" className="text-base font-medium hover:opacity-80 transition-opacity" style={{ color: '#06D6A0' }}>
                             Already have an account? Sign In
                         </a>
                     </div>
