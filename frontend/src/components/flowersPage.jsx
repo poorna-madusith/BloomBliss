@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { getAllFlowers, getCategories } from "../services/flowerervices";
 import background2 from "../assets/background2.png";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const FlowersPage = () => {
   const [flowers, setFlowers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [quantities, setQuantities] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const fetchFlowers = async () => {
     try {
@@ -49,6 +53,22 @@ const FlowersPage = () => {
     ? flowers
     : flowers.filter(flower => flower.category._id === parseInt(selectedCategory));
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredFlowers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedFlowers = filteredFlowers.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to first page when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of the flowers section smoothly
+    document.getElementById('flowers-section').scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div
       className="min-h-screen w-full pt-24"
@@ -67,7 +87,7 @@ const FlowersPage = () => {
 
         {/* Category Navigation */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-full shadow-lg p-2 flex gap-2">
+          <div className="bg-white rounded-full shadow-lg p-2 flex gap-2 flex-wrap justify-center">
             <button
               onClick={() => setSelectedCategory('all')}
               className={`px-6 py-2 rounded-full transition-all duration-300 ${
@@ -94,21 +114,31 @@ const FlowersPage = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
-          {filteredFlowers.map((flower) => (
+        {/* Flowers Grid */}
+        <div id="flowers-section" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
+          {paginatedFlowers.map((flower) => (
             <div
               key={flower._id}
               className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
-              <div className="relative">
+              <div className="relative overflow-hidden group">
                 <img
                   src={flower.image}
                   alt={flower.name}
-                  className="w-full h-72 object-cover"
+                  className={`w-full h-72 object-cover transition-all duration-300 ${
+                    flower.quantity === 1 ? 'brightness-50' : ''
+                  }`}
                 />
-                <span className="absolute top-4 right-4 text-sm font-medium text-white px-3 py-1 bg-[#06D6A0] rounded-full shadow-md">
+                <span className="absolute top-4 right-4 text-sm font-medium text-white px-3 py-1 bg-[#06D6A0] rounded-full shadow-md z-10">
                   {flower.category.name}
                 </span>
+                {flower.quantity === 1 && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-20">
+                    <span className="bg-red-500/80 px-6 py-3 rounded-lg text-lg font-bold tracking-wider transform -rotate-12 shadow-lg">
+                      Out of Stock
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-gray-800 mb-3">
@@ -121,7 +151,9 @@ const FlowersPage = () => {
                   <span className="text-2xl font-bold text-[#06D6A0]">
                     ₹{flower.price}
                   </span>
-                  <div className="flex items-center border rounded-lg overflow-hidden shadow-sm">
+                  <div className={`flex items-center border rounded-lg overflow-hidden shadow-sm ${
+                    flower.quantity === 1 ? 'opacity-50' : ''
+                  }`}>
                     <button
                       className="px-3 py-2 bg-gray-50 hover:bg-gray-100 transition-colors border-r"
                       onClick={() =>
@@ -130,6 +162,7 @@ const FlowersPage = () => {
                           quantities[flower._id] - 1
                         )
                       }
+                      disabled={flower.quantity === 1}
                     >
                       -
                     </button>
@@ -145,6 +178,7 @@ const FlowersPage = () => {
                         )
                       }
                       className="w-14 text-center focus:outline-none font-medium"
+                      disabled={flower.quantity === 1}
                     />
                     <button
                       className="px-3 py-2 bg-gray-50 hover:bg-gray-100 transition-colors border-l"
@@ -154,19 +188,70 @@ const FlowersPage = () => {
                           quantities[flower._id] + 1
                         )
                       }
+                      disabled={flower.quantity === 1}
                     >
                       +
                     </button>
                   </div>
                 </div>
-                <button className="w-full bg-[#06D6A0] hover:bg-[#05bf8f] text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center gap-2">
+                <button 
+                  className={`w-full font-medium py-2.5 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 ${
+                    flower.quantity === 1 
+                    ? 'bg-gray-400 cursor-not-allowed opacity-60' 
+                    : 'bg-[#06D6A0] hover:bg-[#05bf8f] text-white'
+                  }`}
+                  disabled={flower.quantity === 1}
+                >
                   <ShoppingCartIcon className="w-5 h-5" />
-                  Add to Cart
+                  {flower.quantity === 1 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-12 gap-2">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                currentPage === 1
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-gray-600 hover:bg-[#06D6A0] hover:text-white'
+              }`}
+            >
+              <ArrowBackIosNewIcon fontSize="small" />
+            </button>
+            
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => handlePageChange(index + 1)}
+                className={`w-10 h-10 rounded-full transition-all duration-300 ${
+                  currentPage === index + 1
+                    ? 'bg-[#06D6A0] text-white shadow-md scale-105'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+            
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`p-2 rounded-full transition-all duration-300 ${
+                currentPage === totalPages
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-gray-600 hover:bg-[#06D6A0] hover:text-white'
+              }`}
+            >
+              <ArrowForwardIosIcon fontSize="small" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
