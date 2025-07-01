@@ -22,6 +22,7 @@ function Profile() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    Navigate("/home");
   };
 
   const fetchUserProfile = async () => {
