@@ -4,10 +4,13 @@ import background2 from "../assets/background2.png";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useCart } from '../context/useCart';
 
 const FlowersPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [flowers, setFlowers] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -199,11 +202,11 @@ const FlowersPage = () => {
                   <span className="text-2xl font-bold text-[#06D6A0]">
                     ₹{flower.price}
                   </span>
-                  <div className={`flex items-center border rounded-lg overflow-hidden shadow-sm ${
+                  <div className={`flex items-center gap-2 ${
                     flower.quantity === 1 ? 'opacity-50' : ''
                   }`}>
                     <button
-                      className="px-3 py-2 bg-gray-50 hover:bg-gray-100 transition-colors border-r"
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-[#06D6A0]/10 hover:bg-[#06D6A0]/20 text-[#06D6A0] font-medium transition-all duration-300 transform hover:scale-105 active:scale-95"
                       onClick={() =>
                         handleQuantityChange(
                           flower._id,
@@ -212,7 +215,7 @@ const FlowersPage = () => {
                       }
                       disabled={flower.quantity === 1}
                     >
-                      -
+                      <span className="text-lg">−</span>
                     </button>
                     <input
                       type="number"
@@ -225,11 +228,11 @@ const FlowersPage = () => {
                           parseInt(e.target.value)
                         )
                       }
-                      className="w-14 text-center focus:outline-none font-medium"
+                      className="w-12 h-8 text-center bg-transparent border-b-2 border-[#06D6A0]/30 focus:border-[#06D6A0] focus:outline-none font-medium text-gray-700 transition-colors"
                       disabled={flower.quantity === 1}
                     />
                     <button
-                      className="px-3 py-2 bg-gray-50 hover:bg-gray-100 transition-colors border-l"
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-[#06D6A0]/10 hover:bg-[#06D6A0]/20 text-[#06D6A0] font-medium transition-all duration-300 transform hover:scale-105 active:scale-95"
                       onClick={() =>
                         handleQuantityChange(
                           flower._id,
@@ -238,7 +241,7 @@ const FlowersPage = () => {
                       }
                       disabled={flower.quantity === 1}
                     >
-                      +
+                      <span className="text-lg">+</span>
                     </button>
                   </div>
                 </div>
@@ -249,6 +252,7 @@ const FlowersPage = () => {
                     : 'bg-[#06D6A0] hover:bg-[#05bf8f] text-white'
                   }`}
                   disabled={flower.quantity === 1}
+                  onClick={() => addToCart(flower, quantities[flower._id])}
                 >
                   <ShoppingCartIcon className="w-5 h-5" />
                   {flower.quantity === 1 ? 'Out of Stock' : 'Add to Cart'}

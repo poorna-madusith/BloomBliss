@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "../services/authservices";
 import '../app.css';
 import '../index.css';
@@ -16,7 +16,8 @@ function Login(){
         general: ""
     });
 
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+    const { state } = useLocation();
 
     const validateForm = () => {
         let isValid = true;
@@ -59,7 +60,9 @@ function Login(){
             const response = await login(formdata);
             const {token} = response;
             localStorage.setItem('token', token);
-            Navigate("/profile");
+            // Redirect to the page user came from, or profile page as default
+            const redirectTo = state?.from || '/profile';
+            navigate(redirectTo);
         } catch (err) {
             console.error("Error during login:", err);
             setErrors(prev => ({

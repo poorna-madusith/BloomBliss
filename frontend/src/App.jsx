@@ -5,8 +5,11 @@ import Signup from './components/signup'
 import Login from './components/login'
 import Profile from './components/profile'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Home from './components/home'
 import FlowersPage from './components/flowersPage'
+import Cart from './components/Cart'
+import { CartProvider } from './context/CartProvider'
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -16,7 +19,8 @@ function App() {
   };
 
   return (
-    <Router>
+    <CartProvider>
+      <Router>
         <div className="min-h-screen font-[Montserrat]">
           <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
             <div className="max-w-7xl mx-auto px-4">
@@ -38,7 +42,12 @@ function App() {
                   </div>
                 </div>
                 {/* Profile button on the right */}
-                <div className="w-1/4 flex justify-end">
+                <div className="w-1/4 flex justify-end space-x-4">
+                  <div className="hidden md:block">
+                    <Link to="/cart" className="py-2 px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300">
+                      <ShoppingCartIcon fontSize="large" />
+                    </Link>
+                  </div>
                   <div className="hidden md:block">
                     <Link to="/profile" className="py-2 px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300">
                       <AccountCircleOutlinedIcon fontSize="large" />
@@ -82,9 +91,11 @@ function App() {
             <Route path="/profile" element={<Profile />}/>
             <Route path="/home" element={<Home />}/>
             <Route path="/shop" element={<FlowersPage />}/>
+            <Route path="/cart" element={<Cart />}/>
           </Routes>
           </div>
         </Router>
+    </CartProvider>
   )
 }
 
