@@ -2,6 +2,7 @@ import API from "../api";
 import {signup} from "../services/authservices";
 import {useState} from"react";
 import {useNavigate}from "react-router-dom";
+import { toast } from 'react-toastify';
 
 function Signup(){
     const[formdata,SetFormData] = useState({
@@ -109,20 +110,40 @@ function Signup(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
             const response = await signup(formdata);
-            console.log("Signup successful:", response);
+            toast.success(
+                <div>
+                    <h4 className="font-medium">Welcome to BloomBliss! 🌸</h4>
+                    <p className="text-sm">Your account has been created successfully</p>
+                </div>,
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                }
+            );
             Navigate("/login");
-        } catch (err) {
-            console.error("Error during signup:", err);
+        } catch (error) {
+            console.error("Signup error:", error);
+            const errorMessage = error.response?.data?.message || "Failed to create account. Please try again.";
+            toast.error(
+                <div>
+                    <h4 className="font-medium">Signup Failed</h4>
+                    <p className="text-sm">{errorMessage}</p>
+                </div>,
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                }
+            );
             setErrors(prev => ({
                 ...prev,
-                general: "An error occurred during signup. Please try again."
+                general: errorMessage
             }));
         }
     }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "../services/authservices";
+import { toast } from 'react-toastify';
 import '../app.css';
 import '../index.css';
 
@@ -49,28 +50,50 @@ function Login(){
         return isValid;
     };
 
-    const handleSubmit = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
             const response = await login(formdata);
-            const {token} = response;
-            localStorage.setItem('token', token);
-            // Redirect to the page user came from, or profile page as default
-            const redirectTo = state?.from || '/profile';
-            navigate(redirectTo);
-        } catch (err) {
-            console.error("Error during login:", err);
+            localStorage.setItem("token", response.token);
+            toast.success(
+                <div>
+                    <h4 className="font-medium">Welcome Back! 👋</h4>
+                    <p className="text-sm">Successfully logged in</p>
+                </div>,
+                {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                }
+            );
+            if (state?.from) {
+                navigate(state.from);
+            } else {
+                navigate("/home");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            const errorMessage = error.response?.data?.message || "Invalid email or password";
+            toast.error(
+                <div>
+                    <h4 className="font-medium">Login Failed</h4>
+                    <p className="text-sm">{errorMessage}</p>
+                </div>,
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                }
+            );
             setErrors(prev => ({
                 ...prev,
-                general: "Invalid email or password. Please try again."
+                general: errorMessage
             }));
         }
-    }
+    };
 
     return (
         <div className="flex min-h-screen items-center justify-center font-[Montserrat]" style={{ backgroundColor: '#F8FFE5' }}>
@@ -84,7 +107,7 @@ function Login(){
                         {errors.general}
                     </div>
                 )}
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-6" onSubmit={handleLogin}>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                             Email

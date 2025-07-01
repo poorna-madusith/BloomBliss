@@ -6,6 +6,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from '../context/useCart';
+import { toast } from 'react-toastify';
 
 const FlowersPage = () => {
   const location = useLocation();
@@ -18,6 +19,29 @@ const FlowersPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const itemsPerPage = 6;
+
+  const handleAddToCart = (flower, quantity) => {
+    addToCart(flower, quantity);
+    toast.success(
+      <div className="flex items-center space-x-2">
+        <img src={flower.image} alt={flower.name} className="w-10 h-10 object-cover rounded" />
+        <div>
+          <p className="font-medium">{flower.name}</p>
+          <p className="text-sm">Added to cart</p>
+        </div>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: "bg-white",
+      }
+    );
+  };
 
   const fetchFlowers = async () => {
     try {
@@ -252,7 +276,7 @@ const FlowersPage = () => {
                     : 'bg-[#06D6A0] hover:bg-[#05bf8f] text-white'
                   }`}
                   disabled={flower.quantity === 1}
-                  onClick={() => addToCart(flower, quantities[flower._id])}
+                  onClick={() => handleAddToCart(flower, quantities[flower._id])}
                 >
                   <ShoppingCartIcon className="w-5 h-5" />
                   {flower.quantity === 1 ? 'Out of Stock' : 'Add to Cart'}

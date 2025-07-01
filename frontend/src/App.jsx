@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import './App.css'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Signup from './components/signup'
 import Login from './components/login'
 import Profile from './components/profile'
@@ -11,12 +13,17 @@ import FlowersPage from './components/flowersPage'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import OrderSuccess from './components/OrderSuccess'
+import AboutUs from './components/aboutus'
 import { CartProvider } from './context/CartProvider.jsx'
+import { useCart } from './context/useCart';
 
 function NavbarContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isShopPage = location.pathname === '/shop';
+  const { cartItems } = useCart();
+  
+  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -39,15 +46,20 @@ function NavbarContent() {
             <div className="hidden md:flex items-center justify-center space-x-12">
               <Link to="/home" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Home</Link>
               <Link to="/shop" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Shop</Link>
-              <Link to="/" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">About Us</Link>
+              <Link to="/about" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">About Us</Link>
             </div>
           </div>
           {/* Profile button on the right */}
           <div className="w-1/4 flex justify-end space-x-4">
             {isShopPage && (
-              <div className="hidden md:block">
+              <div className="hidden md:block relative">
                 <Link to="/cart" className="py-2 px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300">
                   <ShoppingCartIcon fontSize="large" />
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-[#06D6A0] text-white text-xs font-medium px-2 py-1 rounded-full min-w-[20px] h-[20px] flex items-center justify-center">
+                      {cartItemsCount}
+                    </span>
+                  )}
                 </Link>
               </div>
             )}
@@ -80,9 +92,18 @@ function NavbarContent() {
         <ul className="pt-4 pb-3">
           <li><Link to="/home" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">Home</Link></li>
           <li><Link to="/shop" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">Shop</Link></li>
-          <li><Link to="/" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">About Us</Link></li>
+          <li><Link to="/about" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">About Us</Link></li>
           {isShopPage && (
-            <li><Link to="/cart" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">Cart</Link></li>
+            <li>
+              <Link to="/cart" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50 flex items-center justify-between pr-4">
+                <span>Cart</span>
+                {cartItemsCount > 0 && (
+                  <span className="bg-[#06D6A0] text-white text-xs font-medium px-2 py-1 rounded-full min-w-[20px] h-[20px] flex items-center justify-center">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
+            </li>
           )}
           <li><Link to="/profile" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">Profile</Link></li>
           <li><Link to="/login" className="block pl-4 py-2 text-gray-700 hover:bg-pink-50">Login</Link></li>
@@ -109,8 +130,21 @@ function App() {
             <Route path="/cart" element={<Cart />}/>
             <Route path="/checkout" element={<Checkout />}/>
             <Route path="/order-success" element={<OrderSuccess />}/>
+            <Route path="/about" element={<AboutUs />} />
             <Route path="*" element={<Home />} />
           </Routes>
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </div>
       </Router>
     </CartProvider>

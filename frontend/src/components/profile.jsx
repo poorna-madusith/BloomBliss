@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "../services/authservices";
 import { getUserOrders } from "../services/orderServices";
 import background2 from "../assets/background2.png";
-
+import { toast } from 'react-toastify';
 
 function Profile() {
   const [userData, setuserData] = useState({
@@ -26,6 +26,19 @@ function Profile() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    toast.info(
+      <div>
+        <h4 className="font-medium">Goodbye! 👋</h4>
+        <p className="text-sm">You have been logged out successfully</p>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      }
+    );
     Navigate("/home");
   };
 
@@ -63,7 +76,6 @@ function Profile() {
       setOrders(ordersData);
     } catch (err) {
       console.error("Error fetching orders:", err.response?.data || err.message);
-      alert("Failed to fetch orders. Please try again later.");
     } finally {
       setIsLoading(false);
     }

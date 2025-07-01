@@ -185,6 +185,15 @@ function Home() {
     };
   }, [actualFlowerCount, fetchUserCount]); // Added dependencies
 
+  const handleGetStarted = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/profile");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Full-screen image container */}
@@ -401,7 +410,7 @@ function Home() {
             love, delivered to your door.
           </p>
           <button
-            onClick={() => navigate("/login")}
+            onClick={handleGetStarted}
             className="cursor-pointer group relative bg-[#06D6A0] hover:bg-[#05bf8f] text-white font-semibold text-sm px-6 py-3 rounded-full transition-all duration-1000 delay-400 ease-out opacity-0 translate-y-10 shadow hover:shadow-lg w-40 h-12"
           >
             <div className="relative flex items-center justify-center gap-2">
