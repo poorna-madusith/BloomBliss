@@ -13,6 +13,7 @@ const FlowersPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [quantities, setQuantities] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
   const itemsPerPage = 6;
 
   const fetchFlowers = async () => {
@@ -61,19 +62,23 @@ const FlowersPage = () => {
     }));
   };
 
-  const filteredFlowers = selectedCategory === 'all'
-    ? flowers
-    : flowers.filter(flower => flower.category.name === selectedCategory);
+  // Filter flowers based on search query and selected category
+  const filteredFlowers = flowers.filter((flower) => {
+    const matchesSearch = flower.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || flower.category.name === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredFlowers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedFlowers = filteredFlowers.slice(startIndex, startIndex + itemsPerPage);
+  const endIndex = startIndex + itemsPerPage;
+  const currentFlowers = filteredFlowers.slice(startIndex, endIndex);
 
-  // Reset to first page when category changes
+  // Reset to first page when category or search query changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory]);
+  }, [selectedCategory, searchQuery]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -94,49 +99,56 @@ const FlowersPage = () => {
       className="min-h-screen w-full pt-24"
       style={{
         backgroundImage: `url(${background2})`,
-        backgroundSize: "cover",
-        backgroundPosition: "top",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
       }}
     >
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <h1 className="text-4xl font-bold text-center mb-12 text-gray-800 drop-shadow-lg">
-          Our Beautiful Flowers
-        </h1>
-
-        {/* Category Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-full shadow-lg p-2 flex gap-2 flex-wrap justify-center">
+      <div className="container mx-auto px-4">
+        {/* Search and Category Filter Section */}
+        <div className="mb-8">
+          {/* Search Input */}
+          <div className="mb-6 max-w-md mx-auto">
+            <input
+              type="text"
+              placeholder="Search flowers..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-6 py-3 rounded-full border-2 border-[#06D6A0] focus:outline-none focus:border-[#06D6A0] shadow-md text-gray-700 placeholder-gray-500"
+            />
+          </div>
+          
+          {/* Category Filter */}
+          <nav className="flex justify-center items-center space-x-4 overflow-x-auto pb-2">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 selectedCategory === 'all'
-                  ? 'bg-[#06D6A0] text-white shadow-md scale-105'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'bg-[#06D6A0] text-white shadow-lg transform scale-105'
+                  : 'bg-white text-gray-700 hover:bg-[#06D6A0]/10 hover:transform hover:scale-105 shadow-md'
               }`}
             >
-              All Flowers
+              All
             </button>
             {categories.map((category) => (
               <button
-                key={category.id}
+                key={category._id}
                 onClick={() => setSelectedCategory(category.name)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                className={`px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
                   selectedCategory === category.name
-                    ? 'bg-[#06D6A0] text-white shadow-md scale-105'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-[#06D6A0] text-white shadow-lg transform scale-105'
+                    : 'bg-white text-gray-700 hover:bg-[#06D6A0]/10 hover:transform hover:scale-105 shadow-md'
                 }`}
               >
                 {category.name}
               </button>
             ))}
-          </div>
+          </nav>
         </div>
 
         {/* Flowers Grid */}
         <div id="flowers-section" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
-          {paginatedFlowers.map((flower) => (
+          {currentFlowers.map((flower) => (
             <div
               key={flower._id}
               className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
