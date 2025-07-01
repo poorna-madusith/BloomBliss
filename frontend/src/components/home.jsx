@@ -476,14 +476,6 @@ function Home() {
                     href="#"
                     className="hover:text-[#06D6A0] transition-colors duration-300"
                   >
-                    Our Services
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-[#06D6A0] transition-colors duration-300"
-                  >
                     Shop
                   </a>
                 </li>
