@@ -104,7 +104,7 @@ const FlowersPage = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 pb-12 w-[90%]">
         {/* Search and Category Filter Section */}
         <div className="mb-8">
           {/* Search Input */}
@@ -163,7 +163,7 @@ const FlowersPage = () => {
         </div>
 
         {/* Flowers Grid */}
-        <div id="flowers-section" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
+        <div id="flowers-section" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
           {currentFlowers.map((flower) => (
             <div
               key={flower._id}
@@ -260,7 +260,7 @@ const FlowersPage = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center mt-12 gap-2">
+          <div className="flex justify-center items-center my-12 gap-2">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
