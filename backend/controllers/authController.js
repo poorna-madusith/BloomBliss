@@ -108,3 +108,15 @@ exports.getProfile = async (req,res) => {
         return res.status(500).json({message: "Internal Server Error"});
     }
 }
+
+
+//get user count
+exports.getUserCount = async (req, res) => {
+    try {
+        const count = await Users.countDocuments();
+        return res.status(200).json({ count });
+    } catch (error) {
+        console.error('Error getting user count:', error);
+        return res.status(500).json({ message: 'Error getting user count' });
+    }
+};

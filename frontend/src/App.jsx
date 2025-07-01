@@ -6,6 +6,7 @@ import Login from './components/login'
 import Profile from './components/profile'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Home from './components/home'
+import FlowersPage from './components/flowersPage'
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ function App() {
                 <div className="w-1/4">
                   <div className="flex items-center">
                     <Link to="/" className="flex items-center">
-                      <img src="/logo.PNG" alt="BloomBliss Logo" className="h-12" />
+                      <img src="/logo.webp" alt="BloomBliss Logo" className="h-12" />
                     </Link>
                   </div>
                 </div>
@@ -32,7 +33,7 @@ function App() {
                 <div className="w-2/4 flex justify-center">
                   <div className="hidden md:flex items-center justify-center space-x-12">
                     <Link to="/home" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Home</Link>
-                    <Link to="/" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Shop</Link>
+                    <Link to="/FlowersPage" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">Shop</Link>
                     <Link to="/" className="py-2 font-medium px-3 text-gray-700 hover:text-[#06D6A0] transition duration-300 relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#06D6A0] after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:transition-all after:duration-500 hover:after:w-full">About Us</Link>
                   </div>
                 </div>
@@ -80,6 +81,7 @@ function App() {
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/profile" element={<Profile />}/>
             <Route path="/home" element={<Home />}/>
+            <Route path="/FlowersPage" element={<FlowersPage />}/>
           </Routes>
           </div>
         </Router>
